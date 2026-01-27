@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symbiosis Tech Fest Registration</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:Segoe UI, sans-serif;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),
+    url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1");
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.box{
+  width:100%;
+  max-width:520px;
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(14px);
+  padding:30px;
+  border-radius:18px;
+  color:#fff;
+  box-shadow:0 25px 50px rgba(0,0,0,.5);
+}
+
+h1{
+  text-align:center;
+  margin:0;
+  font-size:26px;
+}
+
+p{
+  text-align:center;
+  font-size:14px;
+  margin:8px 0 25px;
+}
+
+label{
+  font-size:14px;
+  display:block;
+  margin-bottom:6px;
+}
+
+input, select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+  margin-bottom:16px;
+}
+
+select[multiple]{
+  height:120px;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  background:#ffcc00;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#e6b800;
+}
+
+.error{
+  color:#ffdede;
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+#successBox{
+  display:none;
+  text-align:center;
+}
+
+#successBox h1{
+  color:#ffcc00;
+}
+
+#successBox button{
+  margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- FORM -->
+<div class="box" id="formBox">
+  <h1>SYMBIOSIS TECH FEST</h1>
+  <p>Symbiosis International College, Nagpur</p>
+
+  <label>Full Name</label>
+  <input id="name">
+
+  <label>College Name</label>
+  <input id="college">
+
+  <label>Branch / Department</label>
+  <input id="branch">
+
+  <label>Year</label>
+  <select id="year">
+    <option value="">Select Year</option>
+    <option>1st Year</option>
+    <option>2nd Year</option>
+    <option>3rd Year</option>
+    <option>4th Year</option>
+  </select>
+
+  <label>Phone Number</label>
+  <input id="phone">
+
+  <label>Select Events (Multiple)</label>
+  <select id="events" multiple>
+    <option>Hackathon</option>
+    <option>Code War</option>
+    <option>Robotics</option>
+    <option>Tech Quiz</option>
+    <option>Paper Presentation</option>
+    <option>UI / UX Design</option>
+  </select>
+
+  <div class="error" id="error"></div>
+
+  <button onclick="submitForm()">Submit Registration</button>
+</div>
+
+<!-- SUCCESS -->
+<div class="box" id="successBox">
+  <h1>✅ Registration Successful</h1>
+  <p>
+    Your details have been sent successfully.<br>
+    Our team will contact you soon.
+  </p>
+
+  <button onclick="location.reload()">Register Another Student</button>
+</div>
+
+<script>
+function submitForm(){
+
+  let name = document.getElementById("name").value.trim();
+  let college = document.getElementById("college").value.trim();
+  let branch = document.getElementById("branch").value.trim();
+  let year = document.getElementById("year").value;
+  let phone = document.getElementById("phone").value.trim();
+  let events = [...document.getElementById("events").options]
+                .filter(o=>o.selected).map(o=>o.value);
+  let error = document.getElementById("error");
+
+  if(!name || !college || !branch || !year || !phone || events.length===0){
+    error.innerText = "⚠ Please fill all fields.";
+    return;
+  }
+
+  if(phone.length !== 10){
+    error.innerText = "⚠ Enter valid 10-digit mobile number.";
+    return;
+  }
+
+  let message =
+  "🎓 SYMBIOSIS TECH FEST REGISTRATION 🎓\n\n"+
+  "Name: "+name+"\n"+
+  "College: "+college+"\n"+
+  "Branch: "+branch+"\n"+
+  "Year: "+year+"\n"+
+  "Phone: "+phone+"\n"+
+  "Events: "+events.join(", ");
+
+  let adminNumber = "919999999999"; // 🔴 YOUR NUMBER
+  let waURL = "https://wa.me/"+adminNumber+"?text="+encodeURIComponent(message);
+
+  // THIS LINE MUST BE DIRECT (VERY IMPORTANT)
+  window.location.href = waURL;
+
+  // show success UI
+  setTimeout(()=>{
+    document.getElementById("formBox").style.display="none";
+    document.getElementById("successBox").style.display="block";
+  }, 500);
+}
+</script>
+
+</body>
+</html>
